@@ -266,7 +266,14 @@ RUN chmod 755 /usr/bin/pull && chmod 755 /usr/bin/push && chmod 755 /usr/bin/let
 ADD src/ /var/www/html/
 ADD errors/ /var/www/errors
 
+RUN apk update && \
+	apk add mysql mysql-client && \
+	addgroup mysql mysql && \
+	mkdir /scripts && \
+	rm -rf /var/cache/apk/*
 
-EXPOSE 443 80
+VOLUME ["/var/lib/mysql"]
+
+EXPOSE 443 80 3306
 
 CMD ["/start.sh"]
